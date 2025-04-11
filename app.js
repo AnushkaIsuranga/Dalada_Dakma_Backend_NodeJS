@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const sequelize = require('./config/db');
+const { sequelize,  AdminUser, Category, Notice, Notification, Subscriber } = require('./models');
 require('dotenv').config();
 
 const app = express();
@@ -13,27 +13,31 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api', require('./routes/index'));
 
-// Database connection and server start
-// Database connection and server start
-const dbConnect = async () => {
+// In app.js
+const startServer = async () => {
   try {
-    // Enable logging to see the SQL queries
+    // Enable logging to see SQL queries
     sequelize.options.logging = console.log;
     
-    // Force recreate tables
+    console.log("Starting database sync...");
     await sequelize.sync({ force: true });
-    console.log('Database connected and tables created');
+    console.log("Sync complete");
     
+    // Double-check what tables exist
+    const [tables] = await sequelize.query('SHOW TABLES');
+    console.log('Tables after sync:', tables);
+    
+    // Start server only after successful sync
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (err) {
-    console.error('Database sync error:', err);
+    console.error('Server startup error:', err);
   }
 };
 
-dbConnect();
+startServer();
 
 sequelize.query('SHOW TABLES').then(([results]) => {
   console.log('Current tables:', results);
