@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+console.log('server is running...');
+// Import middleware
+
 // Import controllers
 const adminController = require('../controllers/adminController');
 const categoriesController = require('../controllers/categoriesController');
