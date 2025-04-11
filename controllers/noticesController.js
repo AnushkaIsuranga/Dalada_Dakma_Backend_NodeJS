@@ -3,6 +3,32 @@ const {Category} = require('../models');
 const { Op } = require('sequelize');
 const moment = require('moment');
 
+exports.getNotices = async (req, res) => {
+  try {
+    const notices = await Notice.findAll({
+      include: [{
+        model: Category,
+        as: 'category',
+        attributes: ['displayName']
+      }],
+      order: [['createdDate', 'DESC']]
+    });
+
+    const formattedNotices = notices.map(notice => ({
+      id: notice.id,
+      title: notice.title,
+      content: notice.content,
+      formattedDate: moment(notice.createdDate).format('MMMM DD, YYYY - h:mm A'),
+      categoryId: notice.categoryId,
+      categoryName: notice.category.displayName
+    }));
+
+    res.json(formattedNotices);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getNoticesByCategory = async (req, res) => {
   try {
     const notices = await Notice.findAll({

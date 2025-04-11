@@ -7,6 +7,7 @@ const categoriesController = require('../controllers/categoriesController');
 const noticesController = require('../controllers/noticesController');
 const notificationController = require('../controllers/notificationController');
 const subscribersController = require('../controllers/subscribersController');
+const locationController = require('../controllers/locationController');
 
 // Admin routes
 router.post('/admin/login', adminController.login);
@@ -20,6 +21,7 @@ router.put('/categories/:id', categoriesController.updateCategory);
 router.delete('/categories/:id', categoriesController.deleteCategory);
 
 // Notice routes
+router.get('/notices', noticesController.getNotices);
 router.get('/notices/category/:categoryId', noticesController.getNoticesByCategory);
 router.post('/notices', noticesController.createNotice);
 router.put('/notices/:id', noticesController.updateNotice);
@@ -36,5 +38,18 @@ router.delete('/notifications/:id', notificationController.deleteNotification);
 
 // Subscriber routes
 router.post('/subscribers', subscribersController.createSubscriber);
+
+
+// Location routes
+router.get('/locations', locationController.getLocations);
+router.get('/locations/category/:categoryId', locationController.getLocationsByCategory);
+router.post('/locations', locationController.createLocation);
+router.put('/locations/:id', locationController.updateLocation);
+router.delete('/locations/:id', locationController.deleteLocation);
+
+// Special endpoint for lost persons
+router.get('/locations/lost-persons', locationController.getLostPersons);
+router.post('/locations/lost-persons', locationController.createLostPerson);
+router.patch('/locations/lost-persons/:id/status', locationController.updateLostPersonStatus);
 
 module.exports = router;

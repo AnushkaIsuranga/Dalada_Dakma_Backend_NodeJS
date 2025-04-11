@@ -1,14 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { sequelize,  AdminUser, Category, Notice, Notification, Subscriber } = require('./models');
 require('dotenv').config();
 
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
+// Enhanced CORS configuration
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://info.sridaladamaligawa.lk'], // Add all allowed origins
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+app.use(express.json()); // For parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+app.use(cookieParser());
 
 // Routes
 app.use('/api', require('./routes/index'));
@@ -20,7 +31,7 @@ const startServer = async () => {
     sequelize.options.logging = console.log;
     
     console.log("Starting database sync...");
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
     console.log("Sync complete");
     
     // Double-check what tables exist

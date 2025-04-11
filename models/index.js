@@ -26,6 +26,7 @@ const Category = require('./Category')(sequelize);
 const Notice = require('./Notice')(sequelize);
 const Notification = require('./Notification')(sequelize);
 const Subscriber = require('./Subscriber')(sequelize);
+const Location = require('./Location')(sequelize);
 
 // Create models object for associations
 const models = {
@@ -33,7 +34,8 @@ const models = {
   Category,
   Notice,
   Notification,
-  Subscriber
+  Subscriber,
+  Location
 };
 
 // Set up model associations
