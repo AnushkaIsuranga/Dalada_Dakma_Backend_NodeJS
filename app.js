@@ -10,8 +10,9 @@ const db = require('./models');
 const sequelize = db.sequelize;
 // Basic CORS configuration for your React frontend
 const corsOptions = {
-  origin: '*', // Allow all origins
-  methods: 'GET,POST,PUT,DELETE', // Allowed HTTP methods
+  origin: 'http://localhost:5173', // Specify your frontend origin exactly
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true // Allow credentials (cookies, auth headers)
 };
 app.use(cors(corsOptions)); // Enable CORS with options
 // Body parser middleware
