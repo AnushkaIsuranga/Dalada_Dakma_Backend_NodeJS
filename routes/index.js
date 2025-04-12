@@ -33,7 +33,7 @@ router.get('/notifications/active', notificationController.getActiveNotification
 router.get('/notifications/:id', notificationController.getNotificationById);
 router.post('/notifications', notificationController.createNotification);
 router.put('/notifications/:id', notificationController.updateNotification);
-router.patch('/notifications/:id/toggle', notificationController.toggleNotificationStatus);
+router.put('/notifications/:id/toggle', notificationController.toggleNotificationStatus);
 router.delete('/notifications/:id', notificationController.deleteNotification);
 
 // Subscriber routes

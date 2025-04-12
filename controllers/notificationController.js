@@ -4,7 +4,6 @@ const { Op } = require('sequelize');
 exports.getAllNotifications = async (req, res) => {
   try {
     const notifications = await Notification.findAll({
-      where: { isActive: true },
       order: [['createdDate', 'DESC']]
     });
     res.json(notifications);
@@ -75,15 +74,26 @@ exports.toggleNotificationStatus = async (req, res) => {
   try {
     const notification = await Notification.findByPk(req.params.id);
     if (!notification) {
-      return res.status(404).json({ message: 'Notification not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Notification not found' 
+      });
     }
 
     notification.isActive = !notification.isActive;
     await notification.save();
 
-    res.json(notification);
+    res.json({
+      success: true,
+      data: notification
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error toggling notification:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to toggle notification status',
+      error: error.message 
+    });
   }
 };
 

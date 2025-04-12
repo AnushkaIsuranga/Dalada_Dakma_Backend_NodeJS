@@ -12,7 +12,7 @@ const app = express();
 const corsOptions = {
   origin: ['http://localhost:5173', 'http://localhost:3000', 'https://info.sridaladamaligawa.lk'], // Add all allowed origins
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
